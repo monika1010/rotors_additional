@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- BGN - Include -->
+  <xacro:include filename="$(find rotors_description)/urdf/files/robot_parameters.xacro" />
+  <xacro:include filename="$(find rotors_description)/urdf/files/links_joints.xacro" />
+  <!-- END - Include -->
+
+
+    <!-- Macro for the inertia of a box -->
+  <xacro:macro name="box_inertia" params="x y z mass">
+    <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+      iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+      izz="${0.0833333 * mass * (x*x + y*y)}" />
+  </xacro:macro>
+
+    <!-- Macro for the inertial properties of a box -->
+  <xacro:macro name="box_inertial" params="x y z mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <xacro:box_inertia x="${x}" y="${y}" z="${z}" mass="${mass}" />
+    </inertial>
+  </xacro:macro>
+
+ <xacro:macro name="hand">
+  <m_joint name="palm_base" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 0 0" origin_xyz="0 0 -0.05"
+           parent="pelican/base_link" child="palm"
+           limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+
+
+
+<link name="palm">
+  <xacro:box_inertial x="0.1" y="0.2" z="0.1" mass="0.5">
+    <origin xyz="0 0 -0.05" />
+  </xacro:box_inertial>
+  <visual>
+    <origin xyz="0 0 -0.05" rpy="0 0 0" />
+    <geometry>
+      <box size="0.1 0.2 0.1"/> 
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 -0.05" rpy="0 0 0" />
+    <geometry>
+      <box size="0.1 0.2 0.1"/> 
+     </geometry>
+  </collision>
+</link> 
+
+<m_joint name="palm_left" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 -0.15 0"
+           parent="palm" child="left_finger"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+
+
+            
+  <link name="left_finger">
+  <xacro:box_inertial x="0.1" y="0.3" z="0.1" mass="0.1">
+    <origin xyz="0.1 0.2 -0.05" />
+  </xacro:box_inertial>
+  <visual>
+    <origin xyz="0.1 0.2 -0.05" rpy="0 0 -0.78539" />
+    <geometry>
+      <box size="0.1 0.3 0.1"/> 
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0.1 0.2 -0.05" rpy="0 0 -0.78539" />
+    <geometry>
+      <box size="0.1 0.3 0.1"/> 
+    </geometry>
+  </collision>
+</link> 
+
+<m_joint name="left_finger_tip" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 0.1 0"
+           parent="left_finger" child="left_finger_tip"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+
+
+  <link name="left_finger_tip">
+  <xacro:box_inertial x="0.1" y="0.2" z="0.1" mass="0.1">
+    <origin xyz="0.236 0.2 -0.05" />
+  </xacro:box_inertial>
+  <visual>
+    <origin xyz="0.236 0.2 -0.05" rpy="0 0 1.5707" />
+    <geometry>
+      <box size="0.1 0.2 0.1"/> 
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0.236 0.2 -0.05" rpy="0 0 1.5707" />
+    <geometry>
+      <box size="0.1 0.2 0.1"/> 
+    </geometry>
+  </collision>
+</link> 
+
+<m_joint name="palm_right" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 0.15 0"
+           parent="palm" child="right_finger"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+  <link name="right_finger">
+  <xacro:box_inertial x="0.1" y="0.3" z="0.1" mass="0.1">
+    <origin xyz="0.1 -0.2 -0.05" />
+  </xacro:box_inertial>
+  <visual>
+    <origin xyz="0.1 -0.2 -0.05" rpy="0 0 0.78539" />
+    <geometry>
+      <box size="0.1 0.3 0.1"/> 
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0.1 -0.2 -0.05" rpy="0 0 0.78539" />
+    <geometry>
+      <box size="0.1 0.3 0.1"/> 
+    </geometry>
+  </collision>
+</link> 
+
+<m_joint name="right_finger_tip" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 0.1 0"
+           parent="right_finger" child="right_finger_tip"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+
+  <link name="right_finger_tip">
+  <xacro:box_inertial x="0.1" y="0.2" z="0.1" mass="0.1">
+    <origin xyz="0.236 -0.4 -0.05" />
+  </xacro:box_inertial>
+  <visual>
+    <origin xyz="0.236 -0.4 -0.05" rpy="0 0 1.5707" />
+    <geometry>
+      <box size="0.1 0.2 0.1"/> 
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0.236 -0.4 -0.05" rpy="0 0 1.5707" />
+    <geometry>
+      <box size="0.1 0.2 0.1"/> 
+    </geometry>
+  </collision>
+</link> 
+ </xacro:macro>
+</robot>

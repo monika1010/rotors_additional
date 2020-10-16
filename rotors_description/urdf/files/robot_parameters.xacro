@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="link_00_name" value="base_link" />
+  <xacro:property name="link_01_name" value="link_01" />
+  <xacro:property name="link_02_name" value="link_02" />
+  <xacro:property name="link_03_name" value="link_03" />
+  <xacro:property name="link_04_name" value="link_04" />
+  <xacro:property name="link_05_name" value="link_05" />
+  
+  
+  <xacro:property name="arm_1_m" value="0.150" />
+  <xacro:property name="arm_2_m" value="0.225" />
+  <xacro:property name="arm_3_m" value="0.225" />
+  
+  
+  <xacro:property name="arm_1_l" value="0.04" />
+  <xacro:property name="arm_1_r" value="0.09" />
+
+  <xacro:property name="arm_2_l" value="0.07" />
+  <xacro:property name="arm_2_r" value="0.025" />
+  
+  <xacro:property name="arm_3_l" value="0.14" />
+  <xacro:property name="arm_3_r" value="0.02" />
+  
+  <xacro:property name="palm_x" value="0.03" />
+  <xacro:property name="palm_y" value="0.06" />
+  <xacro:property name="palm_z" value="0.01" />
+</robot>

@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+
+<robot name="basic_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <!-- BGN - Include -->
+  <xacro:include filename="$(find rotors_description)/urdf/files/robot_parameters.xacro" />
+  <xacro:include filename="$(find rotors_description)/urdf/files/links_joints.xacro" />
+  <!-- END - Include -->
+  
+  <!-- BGN - Robot description -->
+              
+  <m_joint name="${link_00_name}__${link_01_name}" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 0 0" origin_xyz="0 0 -0.05"
+           parent="pelican/base_link" child="link_01"
+           limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+  
+
+  <m_link_cylinder name="${link_01_name}"
+              origin_rpy="0 0 0" origin_xyz="0 0 ${-0.5*arm_1_l}"
+              mass="${arm_1_m}"
+              length="${arm_1_l}" radius="${arm_1_r}" />
+              
+  <m_joint name="${link_01_name}__${link_02_name}" type="revolute"
+           axis_xyz="0 1 0"
+           origin_rpy="0 0 0" origin_xyz="0 0 ${-1*arm_1_l}"
+           parent="link_01" child="link_02"
+           limit_e="1000" limit_l="0" limit_u="0.5" limit_v="0.5" />
+           
+  <m_link_cylinder name="${link_02_name}"
+              origin_rpy="0 0 0" origin_xyz="0 0 ${-1*(0.5*arm_2_l)}"
+              mass="${arm_2_m}"
+              radius="${arm_2_r}" length="${arm_2_l}" />
+
+             
+  <m_joint name="${link_02_name}__${link_03_name}" type="revolute"
+           axis_xyz="0 1 0"
+           origin_rpy="0 0 0" origin_xyz="0 0 ${-1*(arm_2_l)}"
+           parent="link_02" child="link_03"
+           limit_e="1000" limit_l="0" limit_u="0.75" limit_v="0.5" />
+           
+  <m_link_cylinder name="${link_03_name}"
+              origin_rpy="0 0 0" origin_xyz="0 0 ${-1*(0.5*arm_3_l)}"
+              mass="${arm_3_m}"
+              radius="${arm_3_r}" length="${arm_3_l}" />
+
+<!--Holder part starts from here-->
+<!--
+  <m_joint name="palm_base" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 0 0" origin_xyz="0 0 ${-1*(arm_3_l)}"
+           parent="link_03" child="palm"
+           limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+
+
+
+  <m_link_box name="palm"
+              origin_rpy="0 0 0" origin_xyz="0 0 ${-0.5*palm_z}"
+              mass="0.005"
+              size="0.01 0.02 0.01"
+              x="0.01" y="0.02" z="0.01" />
+
+
+<m_joint name="palm_left" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 -0.015 0"
+           parent="palm" child="left_finger"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+
+  <m_link_box name="left_finger"
+              origin_rpy="0 0 -0.78539" origin_xyz="0.01 0.02 -0.005"
+              mass="0.01"
+              size="0.01 0.03 0.01"
+              x="0.01" y="0.03" z="0.01" />
+
+            
+<m_joint name="left_finger_tip" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 0.01 0"
+           parent="left_finger" child="left_finger_tip"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+
+  <m_link_box name="left_finger_tip"
+              origin_rpy="0 0 1.5707" origin_xyz="0.0236 0.02 -0.005"
+              mass="0.01"
+              size="0.01 0.02 0.01"
+              x="0.01" y="0.02" z="0.01" />
+
+
+<m_joint name="palm_right" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 0.015 0"
+           parent="palm" child="right_finger"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+         
+  <m_link_box name="right_finger"
+              origin_rpy="0 0 0.78539" origin_xyz="0.01 -0.02 -0.005"
+              mass="0.01"
+              size="0.01 0.03 0.01"
+              x="0.01" y="0.03" z="0.01" />         
+
+<m_joint name="right_finger_tip" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 -0 0" origin_xyz="0 0.01 0"
+           parent="right_finger" child="right_finger_tip"
+           limit_e="1000" limit_l="-0.4" limit_u="0.4" limit_v="0.5" />
+
+  <m_link_box name="right_finger_tip"
+              origin_rpy="0 0 1.5707" origin_xyz="0.0236 -0.04 -0.005"
+              mass="0.01"
+              size="0.01 0.02 0.01"
+              x="0.01" y="0.02" z="0.01" />
+  -->
+  <!--gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo-->
+  <!--gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotNamespace>pelican</robotNamespace>
+    <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo-->
+
+</robot>
